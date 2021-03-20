@@ -1,17 +1,18 @@
 package edu.java.registeroffice.domain;
 
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "sex", discriminatorType = DiscriminatorType.INTEGER)
 @Table(name = "ro_person")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "person_id")
     private int personId;
 
     @Column(name = "first_name")
@@ -25,9 +26,19 @@ public class Person {
     @Column(name = "date_birth")
     private LocalDate dateOfBirth;
 
+    @OneToOne(mappedBy = "person", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private BirthCertificate birthCertificate;
+
     @OneToMany(mappedBy = "person", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private List<Passport> passports;
 
+    public BirthCertificate getBirthCertificate() {
+        return birthCertificate;
+    }
+
+    public void setBirthCertificate(BirthCertificate birthCertificate) {
+        this.birthCertificate = birthCertificate;
+    }
 
     public int getPersonId() {
         return personId;
