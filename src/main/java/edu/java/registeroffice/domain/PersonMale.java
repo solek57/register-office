@@ -1,13 +1,16 @@
 package edu.java.registeroffice.domain;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("2")
 public class PersonMale extends Person {
 
-    /* private List<MarriageCertificate> marriageCertificates;
+    @OneToMany(mappedBy = "husband", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private List<MarriageCertificate> marriageCertificates;
+
+    @OneToMany(mappedBy = "father", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private List<BirthCertificate> birthCertificates;
 
     public List<MarriageCertificate> getMarriageCertificates() {
@@ -24,5 +27,5 @@ public class PersonMale extends Person {
 
     public void setBirthCertificates(List<BirthCertificate> birthCertificates) {
         this.birthCertificates = birthCertificates;
-    }*/
+    }
 }
